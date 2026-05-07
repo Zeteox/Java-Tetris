@@ -1,6 +1,5 @@
 package fr.zeteox;
 
-import fr.zeteox.game.GameLoop;
 import javafx.application.Application;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

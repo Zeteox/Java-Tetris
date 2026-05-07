@@ -32,6 +32,7 @@ public class GameRenderer {
     }
 
     public void render(Tetromino tetromino) {
+        gc.clearRect(0, 0, 300, 600);
         scene.setFill(Color.BLACK);
         gc.fill();
         this.renderGrid();
@@ -60,18 +61,39 @@ public class GameRenderer {
     }
 
     private void renderTetromino(Tetromino tetromino) {
-        int[][] shape = tetromino.getShape().getRotation(tetromino.getCurrentRotationIndex());
-        int offsetX = tetromino.getX() - shape[0].length / 2;
-
-        for (int row = 0; row < shape.length; row++) {
-            for (int col = 0; col < shape[row].length; col++) {
-                int x = (offsetX + col) * CASE_SIZE;
-                int y = (tetromino.getY() + row) * CASE_SIZE;
-                if (shape[row][col] != 0) {
+        int[][] box = tetromino.getBoundingBox();
+        for (int row = 0; row < box.length; row++) {
+            for (int col = 0; col < box[row].length; col++) {
+                if (box[row][col] != 0) {
+                    int x = (tetromino.getX() + col) * CASE_SIZE;
+                    int y = (tetromino.getY() + row) * CASE_SIZE;
                     gc.setFill(tetromino.getColor());
                     gc.fillRect(x, y, CASE_SIZE, CASE_SIZE);
+                    gc.setFill(tetromino.getColor().darker());
+                    gc.fillRect(x + 1, y + 1, CASE_SIZE - 2, CASE_SIZE - 2);
                 }
             }
         }
+    }
+
+    public void renderGameOver() {
+        gc.setFill(Color.BLACK);
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        gc.setFill(Color.RED);
+        gc.setFont(javafx.scene.text.Font.font(40));
+
+        gc.fillText(
+                "GAME OVER",
+                canvas.getWidth() / 2 - 110,
+                canvas.getHeight() / 2
+        );
+
+        gc.setFont(javafx.scene.text.Font.font(20));
+        gc.fillText(
+                "Press R to restart",
+                canvas.getWidth() / 2 - 75,
+                canvas.getHeight() / 2 + 50
+        );
     }
 }

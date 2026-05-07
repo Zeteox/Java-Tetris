@@ -7,6 +7,6 @@ public class TetrominoFactory {
 
     public static Tetromino getRandomTetromino() {
         TetrominoShape shape = SHAPES[new Random().nextInt(SHAPES.length)];
-        return new Tetromino(shape, 5, 0);
+        return new Tetromino(shape, 5-shape.getRotation(0).length/2, 0);
     }
 }
